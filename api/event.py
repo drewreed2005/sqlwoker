@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from flask_restful import Api, Resource # used for REST API building
-from datetime import datetime
+from datetime import *
 
 from model.events import Event
 
@@ -29,8 +29,21 @@ class EventAPI:
             event_name = body.get('event_name')
             event_details = body.get('event_details')
             date = body.get('date')
+            if (date is None) or (len(date) != 10) or (int(date[6:10]) < 2023) or (int(date[6:10]) > 2024):
+                return {'message': f'Date is missing, formatted incorrectly, or within an invalid time range.'}, 210
+            dateconv = date(int(date[6:10]), int(date[0:2]), int(date[3:5]))
             start_time = body.get('start_time')
             end_time = body.get('end_time')
+            if datetime.weekday(dateconv) < 5:
+                if (8 <= int(start_time[0:2]) < 17) and (8 < int(end_time[0:2]) <= 17):
+                    pass
+                else:
+                    return {'message': f'The start or end times are invalid for the given date.'}, 210
+            else:
+                if (10 <= int(start_time[0:2]) < 18) and (10 < int(end_time[0:2]) <= 18):
+                    pass
+                else:
+                    return {'message': f'The start or end times are invalid for the given date.'}, 210
 
             ''' #1: Key code block, setup USER OBJECT '''
             eo = Event(name=name, 
