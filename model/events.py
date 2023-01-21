@@ -193,7 +193,7 @@ def initEvents():
     events = [e1, e2, e3]
 
     """Builds sample events data"""
-    
+    """
     for event in events:
         try:
             event.create()
@@ -201,4 +201,5 @@ def initEvents():
             '''fails with bad or duplicate data'''
             db.session.remove()
             print(f"Records exist, duplicate email, or error: {event.event_name}")
+    """
     
