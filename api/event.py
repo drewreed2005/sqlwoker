@@ -48,7 +48,7 @@ class EventAPI:
             if event:
                 return jsonify(event.read())
             # failure returns error
-            return {'message': f'Processed {event_name}, either a format error or email {email} is a duplicate'}, 210
+            return {'message': f'Processed {event_name}, either a format error or the event "{event_name}" is a duplicate'}, 210
 
     class _Read(Resource):
         def get(self):
